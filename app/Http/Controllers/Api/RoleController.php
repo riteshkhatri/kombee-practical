@@ -9,6 +9,7 @@ use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
@@ -25,7 +26,9 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request)
     {
         Gate::authorize('create', Role::class);
-        $role = Role::create($request->validated());
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+        $role = Role::create($data);
 
         if ($request->has('permissions')) {
             $role->permissions()->sync($request->input('permissions'));
@@ -44,7 +47,10 @@ class RoleController extends Controller
     public function update(UpdateRoleRequest $request, Role $role)
     {
         Gate::authorize('update', $role);
-        $role->update($request->validated());
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+
+        $role->update($data);
 
         if ($request->has('permissions')) {
             $role->permissions()->sync($request->input('permissions'));

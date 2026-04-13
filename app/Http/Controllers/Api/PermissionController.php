@@ -9,6 +9,7 @@ use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
@@ -25,7 +26,10 @@ class PermissionController extends Controller
     public function store(StorePermissionRequest $request)
     {
         Gate::authorize('create', Permission::class);
-        $permission = Permission::create($request->validated());
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+
+        $permission = Permission::create($data);
 
         return $this->sendResponse(new PermissionResource($permission), 'Permission created successfully.', 201);
     }
@@ -39,7 +43,10 @@ class PermissionController extends Controller
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         Gate::authorize('update', $permission);
-        $permission->update($request->validated());
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+
+        $permission->update($data);
 
         return $this->sendResponse(new PermissionResource($permission), 'Permission updated successfully.');
     }
