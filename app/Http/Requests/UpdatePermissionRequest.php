@@ -19,7 +19,7 @@ class UpdatePermissionRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('permissions', 'name')->ignore($this->route('permission'))
+                Rule::unique('permissions', 'name')->ignore($this->route('permission')),
             ],
         ];
     }

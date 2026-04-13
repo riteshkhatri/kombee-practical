@@ -37,6 +37,7 @@ class PermissionController extends Controller
     public function show(Permission $permission)
     {
         Gate::authorize('view', $permission);
+
         return $this->sendResponse(new PermissionResource($permission), 'Permission retrieved successfully.');
     }
 

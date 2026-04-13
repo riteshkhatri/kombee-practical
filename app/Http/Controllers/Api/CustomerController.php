@@ -85,7 +85,7 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         Gate::authorize('delete', $customer);
-        
+
         $customer->delete();
 
         return $this->sendResponse(null, 'Customer deleted successfully.');

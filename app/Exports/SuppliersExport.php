@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Supplier;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -10,16 +11,13 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class SuppliersExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function collection()
     {
         return Supplier::all();
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return [
@@ -33,8 +31,7 @@ class SuppliersExport implements FromCollection, WithHeadings, WithMapping
     }
 
     /**
-     * @param mixed $supplier
-     * @return array
+     * @param  mixed  $supplier
      */
     public function map($supplier): array
     {

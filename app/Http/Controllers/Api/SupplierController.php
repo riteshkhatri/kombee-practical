@@ -85,7 +85,7 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         Gate::authorize('delete', $supplier);
-        
+
         $supplier->delete();
 
         return $this->sendResponse(null, 'Supplier deleted successfully.');
